@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from typing import Optional
 import sqlite3
 
 app = FastAPI()
@@ -8,8 +9,8 @@ class Expense(BaseModel):
     name: str
     amount: float
     category: str
-    month: str
-    year: int
+    month: Optional[str]= None
+    year: Optional[int] = None
 
 @app.get("/")
 def read_root():
@@ -34,7 +35,7 @@ def get_all_expenses():
     expenses = [Expense(name=row[1], amount=row[2], category=row[3], month=row[4], year=row[5]) for row in rows]
     return {"expenses": expenses}
 
-@app.get("/expenses_by_month/")
+@app.get("/expenses_by_month/{month}")
 def get_all_expenses():
     con = sqlite3.connect("Expense.db")
     cur = con.cursor()
@@ -42,7 +43,3 @@ def get_all_expenses():
     rows = cur.fetchall()
     expenses = [Expense(name=row[1], amount=row[2], category=row[3]) for row in rows]
     return {"expenses": expenses}
-
-@app.get("/expenses/{expense_id}")
-def read_expense(expense_id: int, q: str | None = None):
-    return {"expense_id": expense_id, "q": q}

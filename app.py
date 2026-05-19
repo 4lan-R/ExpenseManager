@@ -31,7 +31,7 @@ def get_all_expenses():
     cur = con.cursor()
     cur.execute("SELECT * FROM expense")
     rows = cur.fetchall()
-    expenses = [Expense(name=row[1], amount=row[2], category=row[3],amount=row[4],amount=row[5], ) for row in rows]
+    expenses = [Expense(name=row[1], amount=row[2], category=row[3], month=row[4], year=row[5]) for row in rows]
     return {"expenses": expenses}
 
 @app.get("/expenses_by_month/")

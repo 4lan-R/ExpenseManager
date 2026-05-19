@@ -21,10 +21,6 @@ venv/
 # Logs
 *.log
 
-# Database
-*.db
-*.sqlite3
-
 # OS Files
 .DS_Store
 Thumbs.db
